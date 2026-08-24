@@ -77,7 +77,12 @@
       	]
       }
     </script>
-  <link href="css/vendors0c95.css?v=20260806" rel="stylesheet"><link href="css/app0c95.css?v=20260806" rel="stylesheet"><link href="css/exclude0c95.css?v=20260806" rel="stylesheet"></head>
+  <link href="css/vendors0c95.css?v=20260806" rel="stylesheet"><link href="css/app0c95.css?v=20260806" rel="stylesheet"><link href="css/exclude0c95.css?v=20260806" rel="stylesheet">
+    <style>
+      html{scroll-behavior:smooth}
+      #automotive,#satellite{scroll-margin-top:110px}
+    </style>
+  </head>
   <body>
     <div class="layout-wrapper">
       <header class="site-header">
@@ -656,19 +661,7 @@
                         </div>
                       </div>
                     </section>
-                    <div class="page-tools anchor-target" id="automotive">
-                      <nav class="breadcrumb" aria-label="breadcrumb" data-aos="fade-in">
-                        <ol class="breadcrumb-list">
-                          <li class="breadcrumb-item"><a href="index-2.html" title="首頁"><span class="icon"><i class="icon-home"></i></span><span class="text">首頁</span></a></li>
-                          <li class="breadcrumb-item"><a href="products.html" title="產品專區"><span class="text">產品專區</span></a>
-                          </li>
-                          <li class="breadcrumb-item"><a href="product-oem.html" title="OEM"><span class="text">OEM</span></a>
-                          </li>
-                          <li class="breadcrumb-item active" aria-current="page"><span class="text">車用系列</span></li>
-                        </ol>
-                      </nav>
-                    </div>
-                    <section class="product-section detail">
+                    <section class="product-section detail" id="automotive">
                       <div class="section-wrapper bg-tertiary-light px-mobile pt-xl pb-24 md:pb-60 2xl:pb-80 4xl:pb-90">
                         <div class="section-content w-full max-w-1300 mx-auto">
                           <div class="text-block w-full max-w-1200 mx-auto text-center tracking-wider mb-16 md:mb-24 2xl:mb-60">
@@ -807,19 +800,7 @@
                         </div>
                       </div>
                     </section>
-                    <div class="page-tools anchor-target" id="satellite">
-                      <nav class="breadcrumb" aria-label="breadcrumb" data-aos="fade-in">
-                        <ol class="breadcrumb-list">
-                          <li class="breadcrumb-item"><a href="index-2.html" title="首頁"><span class="icon"><i class="icon-home"></i></span><span class="text">首頁</span></a></li>
-                          <li class="breadcrumb-item"><a href="products.html" title="產品專區"><span class="text">產品專區</span></a>
-                          </li>
-                          <li class="breadcrumb-item"><a href="product-oem.html" title="OEM"><span class="text">OEM</span></a>
-                          </li>
-                          <li class="breadcrumb-item active" aria-current="page"><span class="text">LEO 低軌衛星系列</span></li>
-                        </ol>
-                      </nav>
-                    </div>
-                    <section class="product-section detail">
+                    <section class="product-section detail" id="satellite">
                       <div class="section-wrapper bg-tertiary-light px-mobile pt-xl pb-24 md:pb-60 2xl:pb-80 4xl:pb-90">
                         <div class="section-content w-full max-w-1300 mx-auto">
                           <div class="text-block w-full max-w-1200 mx-auto text-center tracking-wider mb-16 md:mb-24 2xl:mb-60">
@@ -1206,7 +1187,42 @@
         </div>
       </footer><script type="module" src="js/cookie-consent-configs.js"></script>
     </div>
-  <script defer="defer" src="js/runtime0c95.js?v=20260806"></script><script defer="defer" src="js/vendors0c95.js?v=20260806"></script><script defer="defer" src="js/app0c95.js?v=20260806"></script><script defer="defer" src="js/exclude0c95.js?v=20260806"></script><script defer="defer" src="js/demo0c95.js?v=20260806"></script></body>
+  <script defer="defer" src="js/runtime0c95.js?v=20260806"></script><script defer="defer" src="js/vendors0c95.js?v=20260806"></script><script defer="defer" src="js/app0c95.js?v=20260806"></script><script defer="defer" src="js/exclude0c95.js?v=20260806"></script><script defer="defer" src="js/demo0c95.js?v=20260806"></script>
+  <script>
+    (function(){
+      function animateScrollTo(targetY, duration){
+        var startY = window.scrollY;
+        var diff = targetY - startY;
+        var startTime = null;
+        function step(timestamp){
+          if(!startTime) startTime = timestamp;
+          var progress = Math.min((timestamp - startTime) / duration, 1);
+          var ease = progress < 0.5 ? 2*progress*progress : 1-Math.pow(-2*progress+2,2)/2;
+          window.scrollTo(0, startY + diff*ease);
+          if(progress < 1){ requestAnimationFrame(step); }
+        }
+        requestAnimationFrame(step);
+      }
+      document.addEventListener('click', function(e){
+        var a = e.target.closest('a[href*="#"]');
+        if(!a) return;
+        var href = a.getAttribute('href');
+        var hashIndex = href.indexOf('#');
+        if(hashIndex === -1) return;
+        var path = href.slice(0, hashIndex);
+        var hash = href.slice(hashIndex + 1);
+        if(!hash || (path && path !== 'product-oem.html')) return;
+        var target = document.getElementById(hash);
+        if(!target) return;
+        e.preventDefault();
+        var headerOffset = 110;
+        var targetY = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+        animateScrollTo(targetY, 600);
+        if(history.pushState){ history.pushState(null, '', '#' + hash); }
+      });
+    })();
+  </script>
+  </body>
 
 <!-- Mirrored from m000493.layout.minmax.website/product-oem.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 17 Aug 2026 17:06:12 GMT -->
 </html>
